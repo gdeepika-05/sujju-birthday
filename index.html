@@ -1,1 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sujju's Piggy Birthday World 🐷</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Trebuchet MS",sans-serif;
+  text-align:center;
+  color:#713c60;
+  background:linear-gradient(135deg,#ffe0ef,#fff0bd,#dff8ff);
+}
+header{padding:30px 12px 15px}
+h1{color:#ec579a;font-size:clamp(27px,7vw,43px)}
+h2{color:#dc5796}
+p{line-height:1.6}
+.pig{font-size:85px;animation:bounce 1.5s infinite}
+@keyframes bounce{50%{transform:translateY(-9px)}}
+section{
+  background:#ffffffd9;
+  margin:18px auto;
+  padding:22px 14px;
+  width:92%;
+  max-width:700px;
+  border-radius:25px;
+  box-shadow:0 5px 15px #d98bb544;
+}
+button{
+  background:#ff77ae;
+  color:white;
+  border:0;
+  border-radius:18px;
+  padding:13px 17px;
+  margin:5px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:active{transform:scale(.96)}
+.result{font-weight:bold;min-height:28px;color:#bc4281}
+.game{font-size:42px;cursor:pointer;display:inline-block;padding:5px}
+#gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.polaroid{
+  background:white;padding:8px 8px 15px;
+  transform:rotate(-2deg);
+  box-shadow:0 3px 9px #7774;
+}
+.polaroid:nth-child(even){transform:rotate(2deg)}
+.polaroid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:3px}
+.polaroid p{margin:8px 0 0;font-size:14px}
+input[type=number]{width:90px;padding:10px;border:2px solid #ffb2d0;border-radius:10px;font-size:18px}
+#cake{font-size:75px}
+#letter{display:none;background:#fff0f7;padding:18px;border-radius:18px}
+footer{padding:25px}
+@media(max-width:350px){#gallery{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="pig">🐷🎀</div>
+  <h1>Happy Birthday, Sujju! 🎂</h1>
+  <p>Welcome to your magical Piggy Birthday World! 🌈</p>
+  <button onclick="welcome()">Tap for a surprise 💝</button>
+  <p class="result" id="welcomeMsg"></p>
+</header>
+
+<section>
+  <h2>🎈 Balloon Pop Challenge</h2>
+  <p>Tap the balloons and collect points!</p>
+  <div id="balloons"></div>
+  <p>Score: <span id="score">0</span> 🎉</p>
+  <button onclick="newBalloons()">Play Again 🔄</button>
+  <p class="result" id="balloonMsg"></p>
+</section>
+
+<section>
+  <h2>🍎 Feed the Hungry Piggy</h2>
+  <div class="pig" id="hungryPig">🐷</div>
+  <p>Apples eaten: <span id="foodScore">0</span></p>
+  <button onclick="feed()">Feed Piggy 🍎</button>
+  <p class="result" id="foodMsg">Oink oink! I'm hungry!</p>
+</section>
+
+<section>
+  <h2>🎂 Birthday Cake Studio</h2>
+  <div id="cake">🎂</div>
+  <p>Decorate your cake!</p>
+  <button onclick="decorate('🎂')">Pink Cake 🩷</button>
+  <button onclick="decorate('🧁')">Cupcake 🧁</button>
+  <button onclick="decorate('🍰')">Party Cake 🍰</button>
+  <button onclick="decorate('🎂🕯️')">Add Candles 🕯️</button>
+  <button onclick="blow()">Blow Candles 💨</button>
+  <p class="result" id="cakeMsg"></p>
+</section>
+
+<section>
+  <h2>🧩 Birthday Quiz</h2>
+  <p id="question">1. Which animal says OINK?</p>
+  <div id="answers"></div>
+  <p class="result" id="quizMsg" aria-live="polite"></p>
+  <p>Stars: <span id="stars">0</span> ⭐</p>
+  <button onclick="startQuiz()">Restart Quiz 🔄</button>
+</section>
+
+<section>
+  <h2>🔎 Find the 5 Hidden Piggies</h2>
+  <p>Tap the boxes to find all five piggies!</p>
+  <div id="hunt"></div>
+  <p class="result" id="huntMsg">Found: 0 / 5 🐷</p>
+  <button onclick="startHunt()">Play Again 🔄</button>
+</section>
+
+<section>
+  <h2>📸 Sujju's Memory Wall 💗</h2>
+  <p>Our special birthday memories!</p>
+  <p>We'll add your personal photos here next. 🫶</p>
+  <div id="gallery">
+    <div class="polaroid">
+      <div style="font-size:75px">🐷🎈</div>
+      <p>Birthday Piggy!</p>
+    </div>
+    <div class="polaroid">
+      <div style="font-size:75px">🎂💖</div>
+      <p>Sweet memories!</p>
+    </div>
+    <div class="polaroid">
+      <div style="font-size:75px">🌈🐽</div>
+      <p>Keep smiling!</p>
+    </div>
+    <div class="polaroid">
+      <div style="font-size:75px">🎁✨</div>
+      <p>A special surprise!</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>💌 A Secret Letter for Sujju</h2>
+  <p>There's a little birthday message waiting for you!</p>
+  <button onclick="openLetter()">Open My Letter 💌</button>
+  <div id="letter">
+    <h2>Dear Sujju 🐷❤️</h2>
+    <p>Happy Birthday to our little superstar! 🌟</p>
+    <p>May your days be filled with laughter, adventures, yummy cake, wonderful friends, and magical memories.</p>
+    <p>Keep dreaming, keep learning, and keep being your amazing self!</p>
+    <p>Oink oink! Lots of birthday love! 🐷🎂💖</p>
+  </div>
+</section>
+
+<footer>Made with 💗 just for Sujju 🐷🎀</footer>
+
+<script>
+function welcome(){
+ document.getElementById('welcomeMsg').textContent=
+ "Surprise, Sujju! You're today's birthday superstar! 🌟🐷";
+ confetti();
+}
+let score=0;
+function newBalloons(){
+ score=0;
+ document.getElementById('score').textContent=score;
+ document.getElementById('balloonMsg').textContent='';
+ const box=document.getElementById('balloons');
+ box.innerHTML='';
+ ['🎈','🎈','🎈','🎈','🎈','🎈','🎈','🎈'].forEach((b,i)=>{
+  let el=document.createElement('span');
+  el.className='game';el.textContent=b;
+  el.setAttribute('role','button');
+  el.setAttribute('aria-label','Pop balloon '+(i+1));
+  el.tabIndex=0;
+  function pop(){
+   if(el.textContent!=='💥'){
+    el.textContent='💥';score++;
+    document.getElementById('score').textContent=score;
+    if(score===8)document.getElementById('balloonMsg').textContent='Amazing! Balloon champion! 🏆';
+   }
+  }
+  el.addEventListener('click',pop);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pop()}});
+  box.appendChild(el);
+ });
+}
+newBalloons();
+let food=0;
+function feed(){
+ food++;
+ document.getElementById('foodScore').textContent=food;
+ document.getElementById('hungryPig').textContent=food%3===0?'🐷💗':'🐷🍎';
+ document.getElementById('foodMsg').textContent=
+ food%3===0?'Yummm! Best birthday ever! 😋':'Nom nom nom! More apples please! 🍎';
+}
+function decorate(emoji){
+ document.getElementById('cake').textContent=emoji;
+ document.getElementById('cakeMsg').textContent='Your cake looks amazing, Sujju! 🎨';
+}
+function blow(){
+ document.getElementById('cake').textContent='🎂✨';
+ document.getElementById('cakeMsg').textContent='Make a wish, Sujju! 💗🎉';
+ confetti();
+}
+const qs=[
+ {q:'1. Which animal says OINK?',a:['🐮 Cow','🐷 Pig','🦁 Lion'],c:1},
+ {q:'2. What do we eat on birthdays?',a:['Birthday cake 🎂','A shoe 👟','A book 📚'],c:0},
+ {q:'3. Which planet do we live on?',a:['Mars 🔴','Earth 🌍','Jupiter 🪐'],c:1},
+ {q:'4. What comes after 9?',a:['7','8','10'],c:2},
+ {q:'5. What should birthdays bring?',a:['Happiness 💗','Homework only 📚','Sadness 😢'],c:0}
+];
+let qi=0,stars=0;
+function startQuiz(){qi=0;stars=0;showQ()}
+function showQ(){
+ document.getElementById('stars').textContent=stars;
+ document.getElementById('quizMsg').textContent='';
+ if(qi>=qs.length){
+  document.getElementById('question').textContent='Quiz completed! 🎉';
+  document.getElementById('answers').innerHTML='';
+  document.getElementById('quizMsg').textContent='You earned '+stars+' out of 5 stars! ⭐';
+  return;
+ }
+ let q=qs[qi];
+ document.getElementById('question').textContent=q.q;
+ let box=document.getElementById('answers');box.innerHTML='';
+ q.a.forEach((a,i)=>{
+  let b=document.createElement('button');b.textContent=a;
+  b.onclick=()=>{
+   if(i===q.c){stars++;document.getElementById('quizMsg').textContent='Correct! ⭐'}
+   else document.getElementById('quizMsg').textContent='Good try! 💗';
+   qi++;document.getElementById('stars').textContent=stars;
+   setTimeout(showQ,700);
+  };
+  box.appendChild(b);
+ });
+}
+startQuiz();
+let found=new Set();
+function startHunt(){
+ found=new Set();
+ const box=document.getElementById('hunt');box.innerHTML='';
+ for(let i=0;i<10;i++){
+  let b=document.createElement('button');
+  b.textContent='❔';b.style.fontSize='23px';
+  b.onclick=()=>{
+   if(b.dataset.done)return;
+   b.dataset.done='yes';
+   if(i%2===0){b.textContent='🐷';found.add(i)}
+   else b.textContent=['🌸','⭐','🍎','🎈','💎'][i%5];
+   document.getElementById('huntMsg').textContent='Found: '+found.size+' / 5 🐷';
+   if(found.size===5){document.getElementById('huntMsg').textContent='You found all 5 piggies! 🏆🐷';confetti()}
+  };
+  box.appendChild(b);
+ }
+}
+startHunt();
+function openLetter(){
+ document.getElementById('letter').style.display='block';
+ confetti();
+}
+function confetti(){
+ const emojis=['💗','🎉','✨','🎈','🐷'];
+ for(let i=0;i<18;i++){
+  let el=document.createElement('span');
+  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.position='fixed';
+  el.style.left=Math.random()*95+'%';
+  el.style.top='-30px';
+  el.style.fontSize='24px';
+  el.style.pointerEvents='none';
+  el.style.zIndex='999';
+  document.body.appendChild(el);
+  let y=-30,fall=setInterval(()=>{
+   y+=5;el.style.top=y+'px';
+   if(y>innerHeight){clearInterval(fall);el.remove()}
+  },25);
+ }
+}
+</script>
+</body>
+</html>
